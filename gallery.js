@@ -243,8 +243,6 @@ function gallery(json,index){
 			}
 			private_list_cnt.html(picList);
 			
-			
-			
 			console.log('gallery:','loading thumbnail!');
 			private_list_cnt.find('span').each(function(){
 				var this_dom = $(this);
