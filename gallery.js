@@ -37,8 +37,8 @@ function gallery(json,index){
 			".lan_List_cnt a span img{display:block;width:100%;height:100%}",
 			".lan_List_cnt a.cur{border-color:#000;cursor:default;z-index:10}",
 			".lan_List_cnt a.cur span{width:100px;height:100px;top:-16px;left:-8px;background-color:#666;}",
-			".lan_exist {background-color:#4c4c4c;color:#fff;cursor:pointer;font-size:20px;width:26px;height:26px;line-height:26px;position:absolute;right:-13px;top:-13px;border-radius:15px;z-index: 100;text-align:center;}",
-			".lan_exist:hover {background-color: #444; color: #f00;}",
+			".lan_exist {background:#000;opacity:.4;color:#fff;cursor:pointer;font-size:20px;width:30px;height:30px;line-height:30px;position:absolute;right:5px;top:5px;border-radius:15px;z-index: 100;text-align:center;}",
+			".lan_exist:hover {opacity:1;}",
 			".lan_next, .lan_prev{display:block;background-image:url(view_skin.png);width:50px;height:100px;position:absolute;top:50%;margin-top:-50px;}",
 			".lan_next{right:30px;background-position:-200px -100px;}",
 			".lan_prev{left:30px;background-position:-200px 0px;}",
@@ -137,7 +137,6 @@ function gallery(json,index){
 	//////////////////////////////////////////////////
 	function bindEvent(){
 		var that = this;
-		console.log('gallery:','bind some events !');
 		var winResizeDelay;
 		$(window).resize(function(){
 			clearTimeout(winResizeDelay);
@@ -229,8 +228,7 @@ function gallery(json,index){
 			'height' : null
 		};
 		
-		console.log('gallery:','define global variable');
-		var private_bottomH = 160,
+		var private_bottomH = 120,
 			 private_list_cnt = this.dom.find('.lan_List_cnt');
 
 		
@@ -243,16 +241,10 @@ function gallery(json,index){
 			}
 			private_list_cnt.html(picList);
 			
-			console.log('gallery:','loading thumbnail!');
 			private_list_cnt.find('span').each(function(){
 				var this_dom = $(this);
 				var src = this_dom.attr('data-src');
-		//		console.log(src);
-	//			loadImg(src,{'loadFn':function(w,h){
-					//this_dom.html('<img src="' + src + '" />');
-		//			this_dom.html('<img src="' + src + '" />');
-					this_dom.css('backgroundImage','url(\"' + src + '\")');
-		//		}});
+				this_dom.css('backgroundImage','url(\"' + src + '\")');
 			});
 		}
 		///////////////////////////////////////////////////////
