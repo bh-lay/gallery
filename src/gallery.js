@@ -258,23 +258,26 @@ function gallery(json,index){
 		};
 		/////////////////////////////////////////////////////
 		this.resetList = function (){
-			var index = this_gal.cur.index;
-			
-			list_cntW = 88*this_gal.total;
+			var index = this_gal.cur.index,
+				list_cntW = 88*this_gal.total,
+				left;
 			private_list_cnt.width(list_cntW);
 			
 			private_list_cnt.find('a').removeClass('cur').eq(index).addClass('cur');
 			if(list_cntW > public_winW){
-				var left = parseInt(private_list_cnt.css('left')) + public_winW/2-private_list_cnt.find('.cur').offset().left-44;
+				left = -88 * index + (public_winW - 88)/2;
 				if(left > 0){
 					left = 0;
 				}
 				if(list_cntW + left < public_winW){
 					left = public_winW-list_cntW;
 				}
-				private_list_cnt.animate({'left':left},80);
+				console.log('left',left);
+				private_list_cnt.animate({
+					left,left
+				},100);
 			}else{
-				private_list_cnt.css({'left' : public_winW/2 - list_cntW/2},80);
+				private_list_cnt.css('left', public_winW/2 - list_cntW/2);
 			}
 		};
 		
