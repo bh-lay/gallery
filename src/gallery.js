@@ -6,15 +6,11 @@ function gallery(json,index){
 	return new gallery.init(json,index);
 }
 (function(exports){
-	var console = window.console||{'log':function(){}};
-	
-	var gallery_tpl = __inline("tpl.html");
-	
-	
-	var public_changeID = 0,
-		 public_win = $(window),
-		 public_winH = public_win.height(),
-		 public_winW = public_win.width();
+	var gallery_tpl = __inline("tpl.html"),
+		public_changeID = 0,
+		public_win = $(window),
+		public_winH = public_win.height(),
+		public_winW = public_win.width();
 	
 	//load image
 	function loadImg(src,parm){
@@ -44,23 +40,20 @@ function gallery(json,index){
 	
 	//////////////////////////////////////////////////////
 	function changePic(){
-		var that = this;
+		var me = this,
+			index = this.cur.index,
+			mainPic = this.dom.find('.lan_img img'),
+			changeDelay = 0,
+			list_cntW = null,
+			src = this.json[index]['cover'],
+			this_changeID = ++public_changeID;
+
 		if(this.total == 0){
-			this.exist();
+			me.exist();
 			return
-		}
-		var this_changeID = ++public_changeID;
-		
-		console.log('gallery:','change picture view !');
-		
-		var index = this.cur.index,
-			 mainPic = this.dom.find('.lan_img img'),
-			 changeDelay = 0,
-			 list_cntW = null;
-		
+		}	
 		this.resetList();
 		
-		var src = this.json[index]['cover'];
 		
 		mainPic.stop().fadeTo(70,0);
 		clearTimeout(changeDelay);
@@ -68,19 +61,19 @@ function gallery(json,index){
 			mainPic.attr('src',src);
 			loadImg(src,{
 				'loadFn':function(w,h){
-					that.cur.width = w;
-					that.cur.height = h;
+					me.cur.width = w;
+					me.cur.height = h;
 					//console.log('LOOK ME:',this_changeID , private_changeID);
 					if(this_changeID == public_changeID){
-						that.resize();
+						me.resize();
 					}
 				},
 				'errorFn':function(){
 					console.log('gallery:','pic error !');
-					that.cur.width = 40;
-					that.cur.height = 40;
+					me.cur.width = 40;
+					me.cur.height = 40;
 					if(this_changeID == public_changeID){
-						that.resize();
+						me.resize();
 					}
 				}
 			});
@@ -89,11 +82,11 @@ function gallery(json,index){
 	
 	//////////////////////////////////////////////////
 	function bindEvent(){
-		var that = this;
-		$(window).resize(that.resize_callback).on('keydown',that.key_callback);
+		var me = this,
+			except = false;
+		$(window).resize(me.resize_callback).on('keydown',me.key_callback);
 		
 		// bind this gallery event
-		var except = false ;
 		function check_mouse(event){
 			var area = null;
 			if(except || event.clientY > public_winH - 160){
@@ -107,42 +100,43 @@ function gallery(json,index){
 			return area ;
 		}
 		
-		this.dom.on('click',function(e){
+		me.dom.on('click',function(e){
 			var this_area = check_mouse(e);
 			if(this_area == 'left'){
-				that.prev()
+				me.prev()
 			}else if(this_area == 'right' ){
-				that.next()
+				me.next()
 			}
 		}).on('mousemove',function(e){
 			var this_area = check_mouse(e);
 			if(this_area == 'left'){
-				that.next_btn.removeClass('active');
-				that.prev_btn.addClass('active');
+				me.next_btn.removeClass('active');
+				me.prev_btn.addClass('active');
 			}else if(this_area == 'right' ){
-				that.prev_btn.removeClass('active');
-				that.next_btn.addClass('active');
+				me.prev_btn.removeClass('active');
+				me.next_btn.addClass('active');
 			}else{
-				that.prev_btn.removeClass('active');
-				that.next_btn.removeClass('active');
+				me.prev_btn.removeClass('active');
+				me.next_btn.removeClass('active');
 			}
 		}).on('mousemove','.lan_List,.lan_to_cnt',function(){
 			except = true ;
 		}).on('click','.lan_exist',function(){
-			that.exist();
+			me.exist();
 			return false;
 		}).on('click','.lan_List_cnt a',function(){
-			that.cur.index = $(this).index();
-			changePic.call(that);
+			me.cur.index = $(this).index();
+			changePic.call(me);
 		});
 	
 	}
 		
 	//////////////////////////////////////////////////////
 	var init = function(json,index){
-		console.log('gallery:','Calculate the initial parameters !');
-		var dom_html = gallery_tpl;
-		var this_gal = this;
+		var me = this,
+			dom_html = gallery_tpl,
+			winResizeDelay,
+			private_bottomH = 120;
 		
 		this.json = json;
 		this.total = json.length;
@@ -152,56 +146,53 @@ function gallery(json,index){
 		this.prev_btn = this.dom.find('.lan_prev');
 		this.thumb_width = 88;
 		this.cur = {
-			'index' : index || 0,
-			'width' : null,
-			'height' : null
+			index : index || 0,
+			width : null,
+			height : null
 		};
 		
-		var winResizeDelay;
-		this.resize_callback = function(){
+		me.resize_callback = function(){
 			clearTimeout(winResizeDelay);
 			winResizeDelay = setTimeout(function(){
-				console.log('gallery:','window resizing !');
 				public_winH = public_win.height(),
 				public_winW = public_win.width(),
-				this_gal.resize();
+				me.resize();
 			},200);
 		};
-		this.key_callback = function(e){
+		me.key_callback = function(e){
 			console.log('gallery:','press key !');
 			var key = parseInt(e.keyCode);
 			switch(key) {
 				case 37:
-					this_gal.prev();
+					me.prev();
 					break
 				case 39:
-					this_gal.next();
+					me.next();
 					break
 				case 27:
-					this_gal.exist();
+					me.exist();
 					break
 			}
 		};
-		var private_bottomH = 120;
 
 		
 
 		/////////////////////////////////////////////////////
 		function render_thumb(){
 			var picList = '';
-			for(var s = 0;s < this_gal.total;s++){
-				picList += "<a href='javascript:void(0)'><span data-src='" + this_gal.json[s]['thumb'] + "'></span></a>";
+			for(var s = 0;s < me.total;s++){
+				picList += "<a href='javascript:void(0)'><span data-src='" + me.json[s]['thumb'] + "'></span></a>";
 			}
-			this_gal.$list.html(picList);
+			me.$list.html(picList);
 			
-			this_gal.$list.find('span').each(function(){
+			me.$list.find('span').each(function(){
 				var this_dom = $(this);
 				var src = this_dom.attr('data-src');
 				this_dom.css('backgroundImage','url(\"' + src + '\")');
 			});
 		}
 		////////////////////////////////////////////
-		this.next = function(){
+		me.next = function(){
 			if(this.total == 1){
 				return
 			}
@@ -212,7 +203,7 @@ function gallery(json,index){
 			}
 			changePic.call(this);
 		};
-		this.prev = function(){
+		me.prev = function(){
 			if(this.total == 1){
 				return
 			}
@@ -223,10 +214,10 @@ function gallery(json,index){
 			}
 			changePic.call(this);
 		};
-		this.resize = function(){
-			var w = this_gal.cur.width,
-				 h = this_gal.cur.height,
-				 mainPicCnt = this_gal.dom.find('.lan_img'),
+		me.resize = function(){
+			var w = me.cur.width,
+				 h = me.cur.height,
+				 mainPicCnt = me.dom.find('.lan_img'),
 				 mainPic = mainPicCnt.find('img');
 			
 			if(h>public_winH-private_bottomH){
@@ -247,16 +238,16 @@ function gallery(json,index){
 				mainPic.stop().fadeTo(80,1);
 			});
 			mainPic.css({'width':w,'height':h});
-			this_gal.resetList();
+			me.resetList();
 		};
 		
 		
 		// start ////////////////////////////////////
-		if(this.total == 0){
+		if(me.total == 0){
 			console.log('gallery:','stop list does not exist !');
 			return
 		}
-		$('body').append(this.dom).hide().fadeIn(400);
+		$('body').append(me.dom).hide().fadeIn(400);
 		bindEvent.call(this);
 		render_thumb();
 		changePic.call(this);
