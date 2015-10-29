@@ -90,33 +90,7 @@ function gallery(json,index){
 	//////////////////////////////////////////////////
 	function bindEvent(){
 		var that = this;
-		var winResizeDelay;
-		$(window).resize(function(){
-			clearTimeout(winResizeDelay);
-			winResizeDelay = setTimeout(function(){
-				console.log('gallery:','window resizing !');
-				public_winH = public_win.height(),
-				public_winW = public_win.width(),
-				that.resize();
-			},200);
-		}).on('keydown',function(e){
-			if(!that.isactive){
-				return
-			}
-			console.log('gallery:','press key !');
-			var key = parseInt(e.keyCode);
-			switch(key) {
-				case 37:
-					that.prev();
-					break
-				case 39:
-					that.next();
-					break
-				case 27:
-					that.exist();
-					break
-			}
-		});
+		$(window).resize(that.resize_callback).on('keydown',that.key_callback);
 		
 		// bind this gallery event
 		var except = false ;
@@ -152,10 +126,11 @@ function gallery(json,index){
 				that.prev_btn.removeClass('active');
 				that.next_btn.removeClass('active');
 			}
-		}).on('mousemove','.lan_exist,.lan_List,.lan_to_cnt',function(){
+		}).on('mousemove','.lan_List,.lan_to_cnt',function(){
 			except = true ;
 		}).on('click','.lan_exist',function(){
-			that.exist();		
+			that.exist();
+			return false;
 		}).on('click','.lan_List_cnt a',function(){
 			that.cur.index = $(this).index();
 			changePic.call(that);
@@ -169,7 +144,6 @@ function gallery(json,index){
 		var dom_html = gallery_tpl;
 		var this_gal = this;
 		
-		this.isactive = true
 		this.json = json;
 		this.total = json.length;
 		this.dom = $(dom_html);
@@ -183,6 +157,31 @@ function gallery(json,index){
 			'height' : null
 		};
 		
+		var winResizeDelay;
+		this.resize_callback = function(){
+			clearTimeout(winResizeDelay);
+			winResizeDelay = setTimeout(function(){
+				console.log('gallery:','window resizing !');
+				public_winH = public_win.height(),
+				public_winW = public_win.width(),
+				this_gal.resize();
+			},200);
+		};
+		this.key_callback = function(e){
+			console.log('gallery:','press key !');
+			var key = parseInt(e.keyCode);
+			switch(key) {
+				case 37:
+					this_gal.prev();
+					break
+				case 39:
+					this_gal.next();
+					break
+				case 27:
+					this_gal.exist();
+					break
+			}
+		};
 		var private_bottomH = 120;
 
 		
@@ -286,16 +285,15 @@ function gallery(json,index){
 				this['json'][index]['cover'] = path_part[1] + name;
 			}
 		},
-		change_active: function(check){
-			if(typeof(check) == "boolean" ){
-				this.isactive = check;
-			} 
-		},
 		exist: function(){
-			this.isactive = false;
 			this.dom.fadeOut(150,function(){
 				$(this).remove();
 			});
+			$(window).unbind('resize',this.resize_callback).unbind('keydown',this.key_callback);
+			//注销自己
+			for(var i in this){
+				delete(this[i]);
+			}
 		},
 		resetList: function (){
 			var me = this,
