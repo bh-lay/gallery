@@ -47,8 +47,18 @@
 }
 .lan_List_cnt a:hover{border-color:#fff;}
 .lan_List_cnt a span img{display:block;width:100%;height:100%}
-.lan_List_cnt a.cur{border-color:#000;cursor:default;z-index:10}
-.lan_List_cnt a.cur span{width:100px;height:100px;top:-16px;left:-8px;background-color:#666;}
+.lan_List_cnt a.cur{
+	border-color:#000;
+	cursor:default;
+	z-index:10
+}
+.lan_List_cnt a.cur span{
+	width: 110%;
+	height: 110%;
+	top: -10%;
+	left: -5%;
+	background-color: #666;
+}
 
 .lan_exist {background:#000;opacity:.4;color:#fff;cursor:pointer;font-size:20px;width:30px;height:30px;line-height:30px;position:absolute;right:5px;top:5px;border-radius:15px;z-index: 100;text-align:center;}
 .lan_exist:hover {opacity:1;}

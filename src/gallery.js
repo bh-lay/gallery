@@ -60,20 +60,20 @@ function gallery(json,index){
 		changeDelay = setTimeout(function(){
 			mainPic.attr('src',src);
 			loadImg(src,{
-				'loadFn':function(w,h){
+				loadFn: function(w,h){
 					me.cur.width = w;
 					me.cur.height = h;
 					//console.log('LOOK ME:',this_changeID , private_changeID);
 					if(this_changeID == public_changeID){
-						me.resize();
+						me.fix_resize();
 					}
 				},
-				'errorFn':function(){
+				errorFn: function(){
 					console.log('gallery:','pic error !');
 					me.cur.width = 40;
 					me.cur.height = 40;
 					if(this_changeID == public_changeID){
-						me.resize();
+						me.fix_resize();
 					}
 				}
 			});
@@ -136,7 +136,7 @@ function gallery(json,index){
 		var me = this,
 			dom_html = gallery_tpl,
 			winResizeDelay,
-			private_bottomH = 120;
+			private_bottomH = 110;
 		
 		this.json = json;
 		this.total = json.length;
@@ -156,7 +156,7 @@ function gallery(json,index){
 			winResizeDelay = setTimeout(function(){
 				public_winH = public_win.height(),
 				public_winW = public_win.width(),
-				me.resize();
+				me.fix_resize();
 			},200);
 		};
 		me.key_callback = function(e){
@@ -175,8 +175,6 @@ function gallery(json,index){
 			}
 		};
 
-		
-
 		/////////////////////////////////////////////////////
 		function render_thumb(){
 			var picList = '';
@@ -191,30 +189,7 @@ function gallery(json,index){
 				this_dom.css('backgroundImage','url(\"' + src + '\")');
 			});
 		}
-		////////////////////////////////////////////
-		me.next = function(){
-			if(this.total == 1){
-				return
-			}
-			if (this.cur.index >= this.total-1){
-				this.cur.index = 0;
-			}else{
-				this.cur.index++;
-			}
-			changePic.call(this);
-		};
-		me.prev = function(){
-			if(this.total == 1){
-				return
-			}
-			if (this.cur.index <= 0){
-				this.cur.index = this.total-1;
-			}else{
-				this.cur.index--
-			}
-			changePic.call(this);
-		};
-		me.resize = function(){
+		me.fix_resize = function(){
 			var w = me.cur.width,
 				 h = me.cur.height,
 				 mainPicCnt = me.dom.find('.lan_img'),
@@ -275,6 +250,28 @@ function gallery(json,index){
 			if(path_part){
 				this['json'][index]['cover'] = path_part[1] + name;
 			}
+		},
+		next: function(){
+			if(this.total == 1){
+				return
+			}
+			if (this.cur.index >= this.total-1){
+				this.cur.index = 0;
+			}else{
+				this.cur.index++;
+			}
+			changePic.call(this);
+		},
+		prev: function(){
+			if(this.total == 1){
+				return
+			}
+			if (this.cur.index <= 0){
+				this.cur.index = this.total-1;
+			}else{
+				this.cur.index--
+			}
+			changePic.call(this);
 		},
 		exist: function(){
 			this.dom.fadeOut(150,function(){
