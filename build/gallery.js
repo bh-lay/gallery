@@ -173,6 +173,7 @@ function gallery(json,index){
 		this.json = json;
 		this.total = json.length;
 		this.dom = $(dom_html);
+		this.$list = this.dom.find('.lan_List_cnt');
 		this.next_btn = this.dom.find('.lan_next');
 		this.prev_btn = this.dom.find('.lan_prev');
 		this.thumb_width = 88;
@@ -182,8 +183,7 @@ function gallery(json,index){
 			'height' : null
 		};
 		
-		var private_bottomH = 120,
-			 private_list_cnt = this.dom.find('.lan_List_cnt');
+		var private_bottomH = 120;
 
 		
 
@@ -193,21 +193,14 @@ function gallery(json,index){
 			for(var s = 0;s < this_gal.total;s++){
 				picList += "<a href='javascript:void(0)'><span data-src='" + this_gal.json[s]['thumb'] + "'></span></a>";
 			}
-			private_list_cnt.html(picList);
+			this_gal.$list.html(picList);
 			
-			private_list_cnt.find('span').each(function(){
+			this_gal.$list.find('span').each(function(){
 				var this_dom = $(this);
 				var src = this_dom.attr('data-src');
 				this_dom.css('backgroundImage','url(\"' + src + '\")');
 			});
 		}
-		///////////////////////////////////////////////////////
-		this.exist = function(){
-			this.isactive = false;
-			this.dom.fadeOut(150,function(){
-				$(this).remove();
-			});
-		};
 		////////////////////////////////////////////
 		this.next = function(){
 			if(this.total == 1){
@@ -257,29 +250,6 @@ function gallery(json,index){
 			mainPic.css({'width':w,'height':h});
 			this_gal.resetList();
 		};
-		/////////////////////////////////////////////////////
-		this.resetList = function (){
-			var index = this_gal.cur.index,
-				list_cntW = this.thumb_width * this_gal.total,
-				left;
-			private_list_cnt.width(list_cntW);
-			
-			private_list_cnt.find('a').removeClass('cur').eq(index).addClass('cur');
-			if(list_cntW > public_winW){
-				left = -this.thumb_width * index + (public_winW - this.thumb_width)/2;
-				if(left > 0){
-					left = 0;
-				}
-				if(list_cntW + left < public_winW){
-					left = public_winW-list_cntW;
-				}
-				private_list_cnt.animate({
-					left,left
-				},100);
-			}else{
-				private_list_cnt.css('left', public_winW/2 - list_cntW/2);
-			}
-		};
 		
 		
 		// start ////////////////////////////////////
@@ -294,7 +264,7 @@ function gallery(json,index){
 	};
 	
 	init.prototype = {
-		'del' : function(){
+		del: function(){
 			if(this.total == 1){
 				this.exist();
 				return
@@ -308,7 +278,7 @@ function gallery(json,index){
 			this.total--;
 			this.next();
 		},
-		'rename' : function(name){
+		rename: function(name){
 			var index = this['cur']['index'];
 			var cover = this['json'][index]['cover'];
 			var path_part = cover.match(/(.+\/).+$/);
@@ -316,10 +286,39 @@ function gallery(json,index){
 				this['json'][index]['cover'] = path_part[1] + name;
 			}
 		},
-		'change_active':function(check){
+		change_active: function(check){
 			if(typeof(check) == "boolean" ){
 				this.isactive = check;
 			} 
+		},
+		exist: function(){
+			this.isactive = false;
+			this.dom.fadeOut(150,function(){
+				$(this).remove();
+			});
+		},
+		resetList: function (){
+			var me = this,
+				index = me.cur.index,
+				list_cntW = me.thumb_width * me.total,
+				left;
+			this.$list.width(list_cntW);
+			
+			this.$list.find('a').removeClass('cur').eq(index).addClass('cur');
+			if(list_cntW > public_winW){
+				left = -this.thumb_width * index + (public_winW - this.thumb_width)/2;
+				if(left > 0){
+					left = 0;
+				}
+				if(list_cntW + left < public_winW){
+					left = public_winW-list_cntW;
+				}
+				this.$list.animate({
+					left,left
+				},100);
+			}else{
+				this.$list.css('left', public_winW/2 - list_cntW/2);
+			}
 		}
 	};
 	exports.init = init;
