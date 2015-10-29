@@ -175,6 +175,7 @@ function gallery(json,index){
 		this.dom = $(dom_html);
 		this.next_btn = this.dom.find('.lan_next');
 		this.prev_btn = this.dom.find('.lan_prev');
+		this.thumb_width = 88;
 		this.cur = {
 			'index' : index || 0,
 			'width' : null,
@@ -259,20 +260,19 @@ function gallery(json,index){
 		/////////////////////////////////////////////////////
 		this.resetList = function (){
 			var index = this_gal.cur.index,
-				list_cntW = 88*this_gal.total,
+				list_cntW = this.thumb_width * this_gal.total,
 				left;
 			private_list_cnt.width(list_cntW);
 			
 			private_list_cnt.find('a').removeClass('cur').eq(index).addClass('cur');
 			if(list_cntW > public_winW){
-				left = -88 * index + (public_winW - 88)/2;
+				left = -this.thumb_width * index + (public_winW - this.thumb_width)/2;
 				if(left > 0){
 					left = 0;
 				}
 				if(list_cntW + left < public_winW){
 					left = public_winW-list_cntW;
 				}
-				console.log('left',left);
 				private_list_cnt.animate({
 					left,left
 				},100);
