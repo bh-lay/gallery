@@ -1,7 +1,7 @@
 .lan_show{
+	position: fixed;
 	width:100%;
 	height:100%;
-	position:absolute;
 	left:0px;
 	top:0px;
 	text-align:center;
@@ -25,17 +25,44 @@
 	height:20%;
 }
 .lan_img img {
-	display:block;width:100%;height:100%;background:#fff;
+	display:block;
+	width:100%;
+	height:100%;
+	background:#fff;
 }
 
-.lan_List{position:absolute;z-index:0;left:0px;bottom:0px;width:100%;height:88px;padding-top:28px;overflow:hidden;cursor:default}
+.lan_List{
+	position:absolute;
+	z-index:0;
+	left:0px;
+	bottom:0px;
+	width:100%;
+	height:88px;
+	padding-top:28px;
+	overflow:hidden;
+	cursor:default
+}
 .lan_List_cnt{
 	position:relative;
 	height:88px;
 	margin:0px;
 }
-.lan_List_cnt a{display:block;float:left;width:84px;height:84px;background:#333;border:2px solid #000;position:relative;}
-.lan_List_cnt a span{width:84px;height:84px;border:none;position:absolute;left:0px;top:0px;
+.lan_List_cnt a{
+	display:block;
+	float:left;
+	width:84px;
+	height:84px;
+	background:#333;
+	border:2px solid #000;
+	position:relative;
+}
+.lan_List_cnt a span{
+	width:84px;
+	height:84px;
+	border:none;
+	position:absolute;
+	left:0px;
+	top:0px;
 	background-color:#333;
 	background-size:cover;
 	background-repeat:no-repeat;
@@ -45,8 +72,14 @@
 	-webkit-transition-duration: ease-in 0.08s;
 	-o-transition-duration: ease-in 0.08s;
 }
-.lan_List_cnt a:hover{border-color:#fff;}
-.lan_List_cnt a span img{display:block;width:100%;height:100%}
+.lan_List_cnt a:hover{
+	border-color:#fff;
+}
+.lan_List_cnt a span img{
+	display:block;
+	width:100%;
+	height:100%
+}
 .lan_List_cnt a.cur{
 	border-color:#000;
 	cursor:default;
@@ -59,9 +92,25 @@
 	left: -5%;
 	background-color: #666;
 }
-
-.lan_exist {background:#000;opacity:.4;color:#fff;cursor:pointer;font-size:20px;width:30px;height:30px;line-height:30px;position:absolute;right:5px;top:5px;border-radius:15px;z-index: 100;text-align:center;}
-.lan_exist:hover {opacity:1;}
+.lan_exist {
+	background:#000;
+	opacity:.4;
+	color:#fff;
+	cursor:pointer;
+	font-size:20px;
+	width:30px;
+	height:30px;
+	line-height:30px;
+	position:absolute;
+	right:5px;
+	top:5px;
+	border-radius:15px;
+	z-index: 100;
+	text-align:center;
+}
+.lan_exist:hover {
+	opacity:1;
+}
 .lan_next, .lan_prev{
 	display:block;
 	width:50px;
@@ -72,8 +121,16 @@
 	background-image:url(view_skin.png?__inline);
 }
 .lan_next{
-	right:30px;background-position: 0 -60px;}
+	right:30px;
+	background-position: 0 -60px;
+}
 .lan_prev{
-	left:30px;background-position: 0 0;}
-.lan_next.active{background-position:-50px -60px;}
-.lan_prev.active{background-position:-50px 0;}
+	left:30px;
+	background-position: 0 0;
+}
+.lan_next.active{
+	background-position:-50px -60px;
+}
+.lan_prev.active{
+	background-position:-50px 0;
+}
