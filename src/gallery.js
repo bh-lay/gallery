@@ -2,10 +2,15 @@
 //this is pic gallery
 //gallery([{}],0,);
 /////////////////////////////////////////
-function gallery(json,index){
-	return new gallery.init(json,index);
-}
-(function(exports){
+
+(function(global,doc,factory){
+	var gallery = factory(global,doc);
+	global.gallery = global.factory || gallery;
+
+	global.define && define(function(){
+		return gallery;
+	});
+})(window,document,function(exports){
 	var gallery_tpl = __inline("tpl.html"),
 		public_changeID = 0,
 		public_win = $(window),
@@ -63,7 +68,6 @@ function gallery(json,index){
 				loadFn: function(w,h){
 					me.cur.width = w;
 					me.cur.height = h;
-					//console.log('LOOK ME:',this_changeID , private_changeID);
 					if(this_changeID == public_changeID){
 						me.fix_resize();
 					}
@@ -132,7 +136,10 @@ function gallery(json,index){
 	}
 		
 	//////////////////////////////////////////////////////
-	var init = function(json,index){
+	function Gallery(json,index){
+		if(!(this instanceof Gallery)){
+			return new Gallery(json,index);
+		}
 		var me = this,
 			dom_html = gallery_tpl,
 			winResizeDelay,
@@ -200,8 +207,8 @@ function gallery(json,index){
 				w = newH*w/h;
 				h = newH;
 			}
-			if(w > public_winW-200){
-				var newW = public_winW - 200;
+			if(w > public_winW-140){
+				var newW = public_winW - 140;
 				h = newW*h/w;
 				w = newW;
 			}
@@ -222,13 +229,13 @@ function gallery(json,index){
 			console.log('gallery:','stop list does not exist !');
 			return
 		}
-		$('body').append(me.dom).hide().fadeIn(400);
+		$('body').append(me.dom);
 		bindEvent.call(this);
 		render_thumb();
 		changePic.call(this);
 	};
 	
-	init.prototype = {
+	Gallery.prototype = {
 		del: function(){
 			if(this.total == 1){
 				this.exist();
@@ -307,5 +314,5 @@ function gallery(json,index){
 			}
 		}
 	};
-	exports.init = init;
-})(gallery);
+	return Gallery;
+});

@@ -8,7 +8,7 @@
 	z-index:6000;
 	overflow:auto;
 	cursor:pointer;
-	background:#888;
+	background:#333;
 	background:rgba(0,0,0,0.8);
 	-moz-user-select: none;
 	-webkit-user-select: none;
@@ -19,9 +19,9 @@
 .lan_img {
 	position:absolute;
 	background:url("loading.gif?__inline") no-repeat center center #fff;
-	left:30%;
+	left:35%;
 	bottom:40%;
-	width:40%;
+	width:30%;
 	height:20%;
 }
 .lan_img img {
@@ -93,20 +93,21 @@
 	background-color: #666;
 }
 .lan_exist {
-	background:#000;
-	opacity:.4;
-	color:#fff;
-	cursor:pointer;
-	font-size:20px;
-	width:30px;
-	height:30px;
-	line-height:30px;
 	position:absolute;
 	right:5px;
 	top:5px;
+	cursor:pointer;
+	width:30px;
+	height:30px;
+	background:#000;
+	opacity:.4;
+	line-height:30px;
+	font-family: sans-serif;
+	font-size:20px;
+	color:#fff;
+	text-align:center;
 	border-radius:15px;
 	z-index: 100;
-	text-align:center;
 }
 .lan_exist:hover {
 	opacity:1;
@@ -117,15 +118,15 @@
 	height:60px;
 	position:absolute;
 	top:50%;
-	margin-top:-30px;
+	margin-top:-85px;
 	background-image:url(view_skin.png?__inline);
 }
 .lan_next{
-	right:30px;
+	right: 15px;
 	background-position: 0 -60px;
 }
 .lan_prev{
-	left:30px;
+	left: 15px;
 	background-position: 0 0;
 }
 .lan_next.active{
