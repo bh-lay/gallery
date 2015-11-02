@@ -143,7 +143,7 @@
 		var me = this,
 			dom_html = gallery_tpl,
 			winResizeDelay,
-			private_bottomH = 110;
+			private_bottomH = 100;
 		
 		this.json = json;
 		this.total = json.length;
@@ -198,12 +198,12 @@
 		}
 		me.fix_resize = function(){
 			var w = me.cur.width,
-				 h = me.cur.height,
-				 mainPicCnt = me.dom.find('.lan_img'),
-				 mainPic = mainPicCnt.find('img');
+				h = me.cur.height,
+				mainPicCnt = me.dom.find('.lan_img'),
+				mainPic = mainPicCnt.find('img');
 			
-			if(h>public_winH-private_bottomH){
-				var newH = public_winH - private_bottomH -30;
+			if(h > public_winH - private_bottomH){
+				var newH = public_winH - private_bottomH - 20;
 				w = newH*w/h;
 				h = newH;
 			}
@@ -213,13 +213,16 @@
 				w = newW;
 			}
 			var Bottom =  (public_winH + private_bottomH - h)/2,
-			Left = (public_winW - w)/2;
+			Left = public_winW < w ? 0 : (public_winW - w)/2;
 		
-			(Left<0)&&(Left=0);
-			mainPicCnt.animate({'width':w,'height':h,'bottom':Bottom,'left':Left},100,function(){
+			mainPicCnt.animate({
+				width: w,
+				height: h,
+				bottom: Bottom,
+				left: Left
+			},100,function(){
 				mainPic.stop().fadeTo(80,1);
 			});
-			mainPic.css({'width':w,'height':h});
 			me.resetList();
 		};
 		
