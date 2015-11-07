@@ -113,7 +113,10 @@
 			}
 		}).on('mousemove',function(e){
 			var this_area = check_mouse(e);
-			if(this_area == 'left'){
+			if(except){
+				me.next_btn.removeClass('active');
+				me.prev_btn.removeClass('active');
+			}else if(this_area == 'left'){
 				me.next_btn.removeClass('active');
 				me.prev_btn.addClass('active');
 			}else if(this_area == 'right' ){
@@ -123,7 +126,7 @@
 				me.prev_btn.removeClass('active');
 				me.next_btn.removeClass('active');
 			}
-		}).on('mousemove','.lan_List,.lan_to_cnt',function(){
+		}).on('mousemove','.lan_List,.lan_exist',function(){
 			except = true ;
 		}).on('click','.lan_exist',function(){
 			me.exist();
