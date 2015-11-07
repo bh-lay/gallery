@@ -120,24 +120,25 @@
 }
 .lan_next, .lan_prev{
 	display:block;
-	width:50px;
+	width:40px;
 	height:60px;
 	position:absolute;
 	top:50%;
 	margin-top:-85px;
 	background-image:url(view_skin.png?__inline);
+	transition: .2s;
+	-webkit-transition: .2s;
+	opacity: .2;
 }
 .lan_next{
-	right: 15px;
+	right: 20px;
 	background-position: 0 -60px;
 }
 .lan_prev{
-	left: 15px;
+	left: 20px;
 	background-position: 0 0;
 }
-.lan_next.active{
-	background-position:-50px -60px;
-}
+.lan_next.active,
 .lan_prev.active{
-	background-position:-50px 0;
+	opacity: 1;
 }

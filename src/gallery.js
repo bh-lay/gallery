@@ -211,7 +211,7 @@
 				h = newH;
 			}
 			if(w > public_winW-140){
-				var newW = public_winW - 140;
+				var newW = public_winW - 20;
 				h = newW*h/w;
 				w = newW;
 			}
