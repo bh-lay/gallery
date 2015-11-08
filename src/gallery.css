@@ -97,22 +97,23 @@
 }
 .lan_exist {
 	position:absolute;
-	right:-50px;
-	top:-50px;
+	right: 0;
+	top: 0;
 	cursor:pointer;
-	width:100px;
-	height:100px;
+	width: 50px;
+	height: 50px;
 	background:#000;
 	opacity:.4;
-	border-radius:50%;
+	border-radius: 0 0 0 50px;
 	z-index: 100;
-}
-.lan_exist div{
-	padding: 50px 50px 15px 15px; 
+	transition: .4s;
+	-webkit-transition: .4s;
+
 	line-height:35px;
 	font-family: sans-serif;
 	font-size:30px;
 	color:#fff;
+	text-indent: 8px;
 	text-align:center;
 }
 .lan_exist:hover {
@@ -126,8 +127,8 @@
 	top:50%;
 	margin-top:-85px;
 	background-image:url(view_skin.png?__inline);
-	transition: .2s;
-	-webkit-transition: .2s;
+	transition: .4s;
+	-webkit-transition: .4s;
 	opacity: .2;
 }
 .lan_next{
