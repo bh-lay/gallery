@@ -7,8 +7,12 @@
     <link rel="stylesheet" type="text/css" href="asset/paraiso.light.css">
 </head>
 <body>
-	<div class="page">
-		<div class="header"></div>
+	<div class="header">
+		<h1>图像预览组件</h1>
+	</div>
+	<div class="container">
+		<h2>例子一：</h2>
+		<p>点击列表中的图片，浏览列表中所有图片并默认显示当前图片</p>
 		<div class="img-list">
 			<img src="images/xjkz_m.png" data-src="images/xjkz.png" alt="">
 			<img src="images/aboutme_m.jpg" data-src="images/aboutme.jpg" alt="">
@@ -29,16 +33,65 @@
   gallery(list,index);
 });</code>
 		</pre>
-
+		<h2>例子二</h2>
+		<a href="javascript:void(0)" class="btn btnA">点击弹出</a>
 		<pre>
-		<code>
-gallery([
-  {
-    thumb: 'images/aboutme_m.jpg',
-    cover: 'images/aboutme.jpg'
-  }
-],0);
-</code>
+		<code>$('.btnA').on('click',function(){
+  gallery([
+    {
+      thumb: 'images/aboutme_m.jpg',
+      cover: 'images/aboutme.jpg'
+    },
+    {
+      thumb: 'images/dragon_m.jpg',
+      cover: 'images/dragon.jpg'
+    }
+  ],0);
+});</code>
+		</pre>
+		<h2>例子三</h2>
+		<p>在图片数目比较多的时候，可以自动适应缩略图位置。</p>
+		<a href="javascript:void(0)" class="btn btnB">点击弹出</a>
+		<pre>
+		<code>$('.btnB').on('click',function(){
+  gallery([
+    {
+      cover: 'images/xjkz.png',
+      thumb: 'images/xjkz_m.png'
+    },
+    {
+      cover: 'images/aboutme.jpg',
+      thumb: 'images/aboutme_m.jpg'
+    },
+    {
+      cover: 'images/dragon.jpg',
+      thumb: 'images/dragon_m.jpg'
+    },
+    {
+      cover: 'images/sky.jpg',
+      thumb: 'images/sky_m.jpg'
+    },
+    {
+      cover: 'images/spiderman.jpg',
+      thumb: 'images/spiderman_m.jpg'
+    },
+    {cover: 'images/xjkz.png',thumb: 'images/xjkz_m.png'},
+    {cover: 'images/aboutme.jpg',thumb: 'images/aboutme_m.jpg'},
+    {cover: 'images/dragon.jpg',thumb: 'images/dragon_m.jpg'},
+    {cover: 'images/sky.jpg',thumb: 'images/sky_m.jpg'},
+    {cover: 'images/spiderman.jpg',thumb: 'images/spiderman_m.jpg'},
+    {cover: 'images/xjkz.png',thumb: 'images/xjkz_m.png'},
+    {cover: 'images/aboutme.jpg',thumb: 'images/aboutme_m.jpg'},
+    {cover: 'images/dragon.jpg',thumb: 'images/dragon_m.jpg'},
+    {cover: 'images/sky.jpg',thumb: 'images/sky_m.jpg'},
+    {cover: 'images/spiderman.jpg',thumb: 'images/spiderman_m.jpg'},
+    {cover: 'images/xjkz.png',thumb: 'images/xjkz_m.png'},
+    {cover: 'images/aboutme.jpg',thumb: 'images/aboutme_m.jpg'},
+    {cover: 'images/dragon.jpg',thumb: 'images/dragon_m.jpg'},
+    {cover: 'images/sky.jpg',thumb: 'images/sky_m.jpg'},
+    {cover: 'images/spiderman.jpg',thumb: 'images/spiderman_m.jpg'}
+  ],3);
+});</code>
 		</pre>
 	</div>
 	<script type="text/javascript" src="asset/jquery.min.js"></script>
