@@ -201,27 +201,25 @@
 		me.fix_resize = function(){
 			var w = me.cur.width,
 				h = me.cur.height,
+				maxWidth = public_winW - 20,
+				maxHeight = public_winH - private_bottomH - 20,
 				mainPicCnt = me.dom.find('.lan_img'),
 				mainPic = mainPicCnt.find('img');
 			
-			if(h > public_winH - private_bottomH){
-				var newH = public_winH - private_bottomH - 20;
-				w = newH*w/h;
-				h = newH;
+			if(h > maxHeight){
+				w = maxHeight*w/h;
+				h = maxHeight;
 			}
-			if(w > public_winW-20){
-				var newW = public_winW - 20;
-				h = newW*h/w;
-				w = newW;
+			if(w > maxWidth){
+				h = maxWidth*h/w;
+				w = maxWidth;
 			}
-			var Bottom =  (public_winH + private_bottomH - h)/2,
-			Left = public_winW < w ? 0 : (public_winW - w)/2;
 		
 			mainPicCnt.animate({
 				width: w,
 				height: h,
-				bottom: Bottom,
-				left: Left
+				top: (public_winH - private_bottomH - h)/2,
+				left: (public_winW - w)/2
 			},100,function(){
 				mainPic.stop().fadeTo(80,1);
 			});

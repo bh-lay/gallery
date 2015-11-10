@@ -20,7 +20,7 @@
 	position:absolute;
 	background:url("loading.gif?__inline") no-repeat center center #fff;
 	left:35%;
-	bottom:40%;
+	top:40%;
 	width:30%;
 	height:20%;
 }
