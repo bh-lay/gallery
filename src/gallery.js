@@ -49,10 +49,10 @@
 			index = this.cur.index,
 			$mainPic = this.dom.find('.lan_img img'),
 			changeDelay,
-			src = this.json[index]['cover'],
+			src = this._data[index]['cover'],
 			this_changeID = ++public_changeID;
 
-		if(this.total == 0){
+		if(this._data.length == 0){
 			me.exist();
 			return
 		}	
@@ -61,11 +61,11 @@
 		$mainPic.stop().fadeTo(70,0);
 		clearTimeout(changeDelay);
 		changeDelay = setTimeout(function(){
-			$mainPic.attr('src',src);
 			loadImg(src,{
 				loadFn: function(w,h){
 					me.cur.width = w;
 					me.cur.height = h;
+					$mainPic.attr('src',src);
 					if(this_changeID == public_changeID){
 						me.fix_resize();
 					}
@@ -140,7 +140,7 @@
 			index = me.cur.index,
 			$items = this.$list.find('a'),
 			thumb_width = $items.eq(0).outerWidth(),
-			list_cntW = thumb_width * me.total,
+			list_cntW = thumb_width * me._data.length,
 			left;
 		this.$list.width(list_cntW);
 		
@@ -161,18 +161,16 @@
 		}
 	}
 	//////////////////////////////////////////////////////
-	function Gallery(json,index){
+	function Gallery(data,index){
 		if(!(this instanceof Gallery)){
-			return new Gallery(json,index);
+			return new Gallery(data,index);
 		}
 		var me = this,
-			dom_html = gallery_tpl,
 			winResizeDelay,
 			private_bottomH = 100;
 		
-		this.json = json;
-		this.total = json.length;
-		this.dom = $(dom_html);
+		this._data = data;
+		this.dom = $(gallery_tpl);
 		this.$list = this.dom.find('.lan_List_cnt');
 		this.next_btn = this.dom.find('.lan_next');
 		this.prev_btn = this.dom.find('.lan_prev');
@@ -191,7 +189,6 @@
 			},200);
 		};
 		me._key_callback = function(e){
-			console.log('gallery:','press key !');
 			var key = parseInt(e.keyCode);
 			switch(key) {
 				case 37:
@@ -209,16 +206,10 @@
 		/////////////////////////////////////////////////////
 		function render_thumb(){
 			var picList = '';
-			for(var s = 0;s < me.total;s++){
-				picList += "<a href='javascript:void(0)'><span data-src='" + me.json[s]['thumb'] + "'></span></a>";
+			for(var s = 0;s < me._data.length;s++){
+				picList += "<a href='javascript:void(0)'><span style='background-image:url(" + me._data[s]['thumb'] + ")'></span></a>";
 			}
 			me.$list.html(picList);
-			
-			me.$list.find('span').each(function(){
-				var this_dom = $(this);
-				var src = this_dom.attr('data-src');
-				this_dom.css('backgroundImage','url(\"' + src + '\")');
-			});
 		}
 		me.fix_resize = function(){
 			var w = me.cur.width,
@@ -250,7 +241,7 @@
 		
 		
 		// start ////////////////////////////////////
-		if(me.total == 0){
+		if(me._data.length == 0){
 			console.log('gallery:','stop list does not exist !');
 			return
 		}
@@ -261,33 +252,11 @@
 	};
 	
 	Gallery.prototype = {
-		del: function(){
-			if(this.total == 1){
-				this.exist();
-				return
-			}else if(this.total == 2){
-				this.next_btn.hide();
-				this.prev_btn.hide();
-			}
-			
-			this.dom.find('.lan_List_cnt a.cur').remove();
-			this['json'].splice(this['cur']['index'],1);
-			this.total--;
-			this.next();
-		},
-		rename: function(name){
-			var index = this['cur']['index'];
-			var cover = this['json'][index]['cover'];
-			var path_part = cover.match(/(.+\/).+$/);
-			if(path_part){
-				this['json'][index]['cover'] = path_part[1] + name;
-			}
-		},
 		next: function(){
-			if(this.total == 1){
+			if(this._data.length == 1){
 				return
 			}
-			if (this.cur.index >= this.total-1){
+			if (this.cur.index >= this._data.length-1){
 				this.cur.index = 0;
 			}else{
 				this.cur.index++;
@@ -295,11 +264,11 @@
 			changePic.call(this);
 		},
 		prev: function(){
-			if(this.total == 1){
+			if(this._data.length == 1){
 				return
 			}
 			if (this.cur.index <= 0){
-				this.cur.index = this.total-1;
+				this.cur.index = this._data.length-1;
 			}else{
 				this.cur.index--
 			}
