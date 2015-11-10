@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>图像预览</title>
+	<link rel="stylesheet" href="asset/page.css">
+    <link rel="stylesheet" type="text/css" href="asset/paraiso.light.css">
+</head>
+<body>
+	<div class="page">
+		<div class="header"></div>
+		<div class="img-list">
+			<img src="images/xjkz_m.png" data-src="images/xjkz.png" alt="">
+			<img src="images/aboutme_m.jpg" data-src="images/aboutme.jpg" alt="">
+			<img src="images/dragon_m.jpg" data-src="images/dragon.jpg" alt="">
+			<img src="images/sky_m.jpg" data-src="images/sky.jpg" alt="">
+			<img src="images/spiderman_m.jpg" data-src="images/spiderman.jpg" alt="">
+		</div>
+		<pre>
+		<code>$('img').on('click',function(){
+  var list = [],
+      index = $(this).index();
+  $('img').each(function(inddex,$img){
+    list.push({
+      thumb: $(this).attr('src'),
+      cover: $(this).attr('data-src')
+    });
+  });
+  gallery(list,index);
+});</code>
+		</pre>
+
+		<pre>
+		<code>
+gallery([
+  {
+    thumb: 'images/aboutme_m.jpg',
+    cover: 'images/aboutme.jpg'
+  }
+],0);
+</code>
+		</pre>
+	</div>
+	<script type="text/javascript" src="asset/jquery.min.js"></script>
+	<script type="text/javascript" src="asset/gallery.js"></script>
+	<script type="text/javascript" src="asset/highlight.js"></script>
+	<script type="text/javascript">
+$('pre code').each(function(){
+	eval('(function (){' +  $(this).text() + '})()');
+});
+hljs.initHighlighting();
+	</script>
+</body>
+</html>

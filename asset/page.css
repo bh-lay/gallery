@@ -1,0 +1,56 @@
+body, h1, h2, h3, h4, h5, h6, div, p, a, li,section, span,pre,code{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    font-family: arial,"Hiragino Sans GB","Microsoft Yahei","微软雅黑","宋体",Tahoma,Arial,Helvetica,STHeiti;
+}
+a img{ 
+    border: none;
+}
+a{
+    text-decoration: none;
+}
+a:link{
+    color: #3F505B;
+}
+a:visited{
+    color: #b1b8bd;
+}
+a:hover{
+    color: #2c85ff;
+}
+a.visited {
+    color: #b1b8bd;
+}
+a.visited:hover {
+    color: #2c85ff;
+}
+ol, ul{ 
+    list-style: none; 
+    margin: 0px;
+    padding: 0px;
+}
+.page{
+	width: 1024px;
+	max-width: 100%;
+	margin: auto;
+}
+.header{
+	height: 300px;
+}
+.img-list{
+	height: 100px;
+}
+.img-list img{
+	display: block;
+	float: left;
+	height: 100%;
+	opacity: .6;
+	-webkit-transition: .2s ease-in-out;
+	transition: .2s ease-in-out;
+}
+.img-list img:hover{
+	opacity: 1;
+	cursor: pointer;
+}
