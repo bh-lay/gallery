@@ -154,7 +154,6 @@
 		this.$list = this.dom.find('.lan_List_cnt');
 		this.next_btn = this.dom.find('.lan_next');
 		this.prev_btn = this.dom.find('.lan_prev');
-		this.thumb_width = 88;
 		this.cur = {
 			index : index || 0,
 			width : null,
@@ -299,18 +298,20 @@
 		resetList: function (){
 			var me = this,
 				index = me.cur.index,
-				list_cntW = me.thumb_width * me.total,
+				$items = this.$list.find('a'),
+				thumb_width = $items.eq(0).outerWidth(),
+				list_cntW = thumb_width * me.total,
 				left;
 			this.$list.width(list_cntW);
 			
-			this.$list.find('a').removeClass('cur').eq(index).addClass('cur');
+			$items.removeClass('cur').eq(index).addClass('cur');
 			if(list_cntW > public_winW){
-				left = -this.thumb_width * index + (public_winW - this.thumb_width)/2;
-				if(left > 0){
-					left = 0;
+				left = public_winW/2 - thumb_width * (index + .5);
+				if(left > 10){
+					left = 10;
 				}
-				if(list_cntW + left < public_winW){
-					left = public_winW-list_cntW;
+				if(left < public_winW - list_cntW - 10){
+					left = public_winW - list_cntW - 10;
 				}
 				this.$list.animate({
 					left: left
