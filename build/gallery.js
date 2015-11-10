@@ -47,9 +47,8 @@
 	function changePic(){
 		var me = this,
 			index = this.cur.index,
-			mainPic = this.dom.find('.lan_img img'),
-			changeDelay = 0,
-			list_cntW = null,
+			$mainPic = this.dom.find('.lan_img img'),
+			changeDelay,
 			src = this.json[index]['cover'],
 			this_changeID = ++public_changeID;
 
@@ -57,13 +56,12 @@
 			me.exist();
 			return
 		}	
-		this.resetList();
+		resetList.call(me);
 		
-		
-		mainPic.stop().fadeTo(70,0);
+		$mainPic.stop().fadeTo(70,0);
 		clearTimeout(changeDelay);
 		changeDelay = setTimeout(function(){
-			mainPic.attr('src',src);
+			$mainPic.attr('src',src);
 			loadImg(src,{
 				loadFn: function(w,h){
 					me.cur.width = w;
@@ -88,7 +86,7 @@
 	function bindEvent(){
 		var me = this,
 			except = false;
-		$(window).resize(me.resize_callback).on('keydown',me.key_callback);
+		$(window).resize(me._resize_callback).on('keydown',me._key_callback);
 		
 		// bind this gallery event
 		function check_mouse(event){
@@ -137,7 +135,31 @@
 		});
 	
 	}
+	function resetList(){
+		var me = this,
+			index = me.cur.index,
+			$items = this.$list.find('a'),
+			thumb_width = $items.eq(0).outerWidth(),
+			list_cntW = thumb_width * me.total,
+			left;
+		this.$list.width(list_cntW);
 		
+		$items.removeClass('cur').eq(index).addClass('cur');
+		if(list_cntW > public_winW){
+			left = public_winW/2 - thumb_width * (index + .5);
+			if(left > 10){
+				left = 10;
+			}
+			if(left < public_winW - list_cntW - 10){
+				left = public_winW - list_cntW - 10;
+			}
+			this.$list.animate({
+				left: left
+			},100);
+		}else{
+			this.$list.css('left', public_winW/2 - list_cntW/2);
+		}
+	}
 	//////////////////////////////////////////////////////
 	function Gallery(json,index){
 		if(!(this instanceof Gallery)){
@@ -160,7 +182,7 @@
 			height : null
 		};
 		
-		me.resize_callback = function(){
+		me._resize_callback = function(){
 			clearTimeout(winResizeDelay);
 			winResizeDelay = setTimeout(function(){
 				public_winH = public_win.height(),
@@ -168,7 +190,7 @@
 				me.fix_resize();
 			},200);
 		};
-		me.key_callback = function(e){
+		me._key_callback = function(e){
 			console.log('gallery:','press key !');
 			var key = parseInt(e.keyCode);
 			switch(key) {
@@ -223,7 +245,7 @@
 			},100,function(){
 				mainPic.stop().fadeTo(80,1);
 			});
-			me.resetList();
+			resetList.call(me);
 		};
 		
 		
@@ -287,35 +309,10 @@
 			this.dom.fadeOut(150,function(){
 				$(this).remove();
 			});
-			$(window).unbind('resize',this.resize_callback).unbind('keydown',this.key_callback);
+			$(window).unbind('resize',this._resize_callback).unbind('keydown',this._key_callback);
 			//注销自己
 			for(var i in this){
 				delete(this[i]);
-			}
-		},
-		resetList: function (){
-			var me = this,
-				index = me.cur.index,
-				$items = this.$list.find('a'),
-				thumb_width = $items.eq(0).outerWidth(),
-				list_cntW = thumb_width * me.total,
-				left;
-			this.$list.width(list_cntW);
-			
-			$items.removeClass('cur').eq(index).addClass('cur');
-			if(list_cntW > public_winW){
-				left = public_winW/2 - thumb_width * (index + .5);
-				if(left > 10){
-					left = 10;
-				}
-				if(left < public_winW - list_cntW - 10){
-					left = public_winW - list_cntW - 10;
-				}
-				this.$list.animate({
-					left: left
-				},100);
-			}else{
-				this.$list.css('left', public_winW/2 - list_cntW/2);
 			}
 		}
 	};
