@@ -160,6 +160,13 @@
 			this.$list.css('left', public_winW/2 - list_cntW/2);
 		}
 	}
+	function render_thumb(){
+		var picList = '';
+		for(var s = 0;s < me._data.length;s++){
+			picList += "<a href='javascript:void(0)'><span style='background-image:url(" + me._data[s]['thumb'] + ")'></span></a>";
+		}
+		me.$list.html(picList);
+	}
 	//////////////////////////////////////////////////////
 	function Gallery(data,index){
 		if(!(this instanceof Gallery)){
@@ -202,17 +209,22 @@
 					break
 			}
 		};
-
-		/////////////////////////////////////////////////////
-		function render_thumb(){
-			var picList = '';
-			for(var s = 0;s < me._data.length;s++){
-				picList += "<a href='javascript:void(0)'><span style='background-image:url(" + me._data[s]['thumb'] + ")'></span></a>";
-			}
-			me.$list.html(picList);
+		
+		// start ////////////////////////////////////
+		if(me._data.length == 0){
+			console.log('gallery:','stop list does not exist !');
+			return
 		}
-		me.fix_resize = function(){
-			var w = me.cur.width,
+		$('body').append(me.dom);
+		bindEvent.call(me);
+		render_thumb.call(me);
+		changePic.call(me);
+	};
+	
+	Gallery.prototype = {
+		fix_resize: function(){
+			var me = this,
+				w = me.cur.width,
 				h = me.cur.height,
 				maxWidth = public_winW - 20,
 				maxHeight = public_winH - private_bottomH - 20,
@@ -237,21 +249,7 @@
 				mainPic.stop().fadeTo(80,1);
 			});
 			resetList.call(me);
-		};
-		
-		
-		// start ////////////////////////////////////
-		if(me._data.length == 0){
-			console.log('gallery:','stop list does not exist !');
-			return
-		}
-		$('body').append(me.dom);
-		bindEvent.call(this);
-		render_thumb();
-		changePic.call(this);
-	};
-	
-	Gallery.prototype = {
+		},
 		next: function(){
 			if(this._data.length == 1){
 				return
